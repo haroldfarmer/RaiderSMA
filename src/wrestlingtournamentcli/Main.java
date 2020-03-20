@@ -1,4 +1,3 @@
-
 package wrestlingtournamentcli;
 import DataClasses.*;
 import java.util.ArrayList;
