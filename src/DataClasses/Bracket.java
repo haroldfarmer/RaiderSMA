@@ -23,12 +23,13 @@ import wrestlingtournamentcli.Model;
  */
 public class Bracket implements Serializable {
 
-    ArrayList<ArrayList<Match>> bracket = new ArrayList();
-    private ArrayList<Wrestler> wrestlerList;
+    public ArrayList<ArrayList<Match>> bracket = new ArrayList();
+     static ArrayList<Wrestler> wrestlerList;
     String winner;
     int roundsNeeded;
     int currentRound;
-    int weightClass;
+    static int weightClass;
+    int size;
     boolean primary;
 
     public Bracket(ArrayList<Wrestler> wrestlerList) {
@@ -37,6 +38,7 @@ public class Bracket implements Serializable {
         this.roundsNeeded = determineRounds();
         initializeBracket();
         this.currentRound = 0;
+        this.size = wrestlerList.size();
         printBracket(false);
     }
 
@@ -158,7 +160,8 @@ public class Bracket implements Serializable {
             for (int i = bracket.size() - 1; i != -1; i--) {
                 writeRound(bracket.get(i), i, bw);
             }
-            System.out.println(weightClass + ": " + bracket.get(0).size() + "\tWrestlers: " + wrestlerList.size());
+            
+           // System.out.println(weightClass + ": " + bracket.get(0).size() + "\tWrestlers: " + wrestlerList.size());
             //System.out.println("Bracket printed successfully!");
             try {
                 bw.close();
@@ -369,4 +372,19 @@ public class Bracket implements Serializable {
     }
     
     
+    
+    public static int getWeightClass() {//Returns weight class to be displayed in GUI
+		return weightClass;
+    	
+    }
+    
+    //public static ArrayList<ArrayList<Match>> getBracketSize() {
+	//	return bracket;
+    	
+   // }
+    
+    public int getWrestlerListSize() {
+		return size;
+    	
+    }
 }

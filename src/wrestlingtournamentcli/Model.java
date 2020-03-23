@@ -790,6 +790,23 @@ public class Model {
     }
     
     
+    public static ArrayList<Bracket> getBracketList() {
+		return bracketList;
+    	
+    }
     
+    public static ArrayList<Wrestler> getWrestlerList() {
+		return wrestlerList;
+    	
+    }
     
+    public static ArrayList<Integer> getWeightClass() {
+		return weightClasses;
+    	
+    }
+    
+    public static ArrayList<Bracket> getBracket() {
+		return bracketList;
+    	
+    }
 }

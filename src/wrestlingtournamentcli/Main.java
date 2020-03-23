@@ -1,5 +1,6 @@
 package wrestlingtournamentcli;
 import DataClasses.*;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import loggingFunctions.*;
@@ -72,6 +73,12 @@ public class Main extends Application{
                     case "START":
                     	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.generateTournament();
+                        for(int i =0 ; i < Model.getBracketList().size(); i++) {
+                        	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+                        	
+                        	System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + size);
+                        }
+                       
                         return;
                     case "VIEW-TEAMS":
                     	log.writeActionlog("Command Entered: " +args.get(0));
@@ -326,6 +333,12 @@ public class Main extends Application{
 				String genTourn2Info = "Generating the tourament was a success!";
 				genTour2.setContentText(genTourn2Info);
 				genTour2.show();
+				 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+                 	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+                 	
+                 	System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + size);
+                 }
+                
 			}
 			else {
 				return;
