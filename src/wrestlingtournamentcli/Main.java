@@ -237,15 +237,25 @@ public class Main extends Application{
 			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
 				listView.getItems().add(wrestlerListshow.get(i));
 			}*/
-			for(int i = 0; i < wrestlerList.size(); i++) {
-				wrestlerView.getItems().add(wrestlerList.get(i));
+			if(Model.getWrestlerList().size() == 0) {
+				Alert viewWrestlerAlert = new Alert(AlertType.ERROR);
+				viewWrestlerAlert.setTitle("ERROR!");
+				 String info = "Please Import Teams First Then Wrestlers";
+				 viewWrestlerAlert.setContentText(info);
+				 viewWrestlerAlert.show();
 			}
+			else {
+				for(int i = 0; i < wrestlerList.size(); i++) {
+				wrestlerView.getItems().add(wrestlerList.get(i));
+				}
+			}
+			
 			
 		    return;
 		});
 		
 		importTeams.setOnAction(e -> {
-		
+		// Uses file chooser to allow the user to pick a file rather than inputing paths
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
 			if(seletedFile != null) {
@@ -277,6 +287,7 @@ public class Main extends Application{
 		
 		
 		importWrestlers.setOnAction(e -> {
+			// Uses file chooser to allow the user to pick a file rather than inputing paths
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
 			if(seletedFile != null) {
@@ -376,7 +387,7 @@ public class Main extends Application{
 					}
 				
 			}
-			else {
+			else {//Generates tournament if there is non generated
 				Model.generateTournament();
 				Alert genTour2 = new Alert(AlertType.CONFIRMATION);
 				genTour2.setTitle("Generate Tournament Success!");
