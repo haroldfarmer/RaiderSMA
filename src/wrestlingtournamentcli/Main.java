@@ -2,6 +2,7 @@ package wrestlingtournamentcli;
 import DataClasses.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import loggingFunctions.*;
 import DataClasses.*;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -182,6 +184,7 @@ public class Main extends Application{
 		
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
+		ListView<String> startView = new ListView<String>();
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
@@ -315,7 +318,7 @@ public class Main extends Application{
 		});
 		
 		start.setOnAction(e -> {
-			int check = Model.generateTournament();
+			/*int check = Model.generateTournament();
 			if(check == 0) {
 				Alert genTourn0 = new Alert(AlertType.ERROR);
 				genTourn0.setTitle("Generate Tournament ALert");
@@ -328,26 +331,73 @@ public class Main extends Application{
 				return;
 			}
 			else if (check == 2) {
+				if(Model.getBracketList().size() != 0) {
+					
+				}
+				
+                 	//System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + bracketSize);
+                 }
+                
+			}
+			else {
+				return;
+			}*/
+			
+			
+			if(Model.getWrestlerList().size() == 0 || Model.getTeamList().size() == 0) {//checks to see if there are teams and wrestlers
+				Alert genTourn0 = new Alert(AlertType.ERROR);
+				genTourn0.setTitle("Generate Tournament ALert");
+				String genTourn0Info = "Error: No Wrestlers or Teams Found \n"
+						+ "Please add wrestlers/teams before generating a tournament.";
+				genTourn0.setContentText(genTourn0Info);
+				genTourn0.show();	
+			} else if(Model.getBracketList().size() != 0) {//checks to see if there is already a Tournament and then as user if they want to restart match
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Restart Tournement Conformation");
+				alert.setContentText("Restart?");
+				alert.setHeaderText("Want to Restart Tournament?");
+				Optional<ButtonType> result = alert.showAndWait(); 
+					if(result.get() == ButtonType.OK) {
+						Model.getBracketList().clear();
+						Model.generateTournament();
+						Alert genTour2 = new Alert(AlertType.CONFIRMATION);
+						genTour2.setTitle("Generate Tournament Success!");
+						String genTourn2Info = "Generating the tourament was a success!";
+						genTour2.setContentText(genTourn2Info);
+						genTour2.show();
+						 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+			             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+			             	String numOfWrestlers = String.valueOf(size);
+			             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+			             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+			             	
+			             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+						 }
+					}
+				
+			}
+			else {
+				Model.generateTournament();
 				Alert genTour2 = new Alert(AlertType.CONFIRMATION);
 				genTour2.setTitle("Generate Tournament Success!");
 				String genTourn2Info = "Generating the tourament was a success!";
 				genTour2.setContentText(genTourn2Info);
 				genTour2.show();
 				 for(int i =0 ; i < Model.getBracketList().size(); i++) {
-                 	int size =  Model.getBracketList().get(i).getWrestlerListSize();
-                 	
-                 	System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + size);
-                 }
-                
+	             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+	             	String numOfWrestlers = String.valueOf(size);
+	             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+	             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+	             	
+	             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+				 }
 			}
-			else {
-				return;
-			}
+			
 		});
 		
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView,wrestlerView);
+		viewList.getChildren().addAll(listView,wrestlerView,startView);
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
@@ -356,4 +406,5 @@ public class Main extends Application{
 		stage.show();
 		
 	}
+	
 }

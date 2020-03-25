@@ -61,7 +61,7 @@ public class Model {
     
     //ArrayLists for Teams, Wrestlers, Weight Classes, Brackets, and Matches for Tournament
     private static ArrayList<Team> teamList;
-    private static ArrayList<Wrestler> wrestlerList;
+    static ArrayList<Wrestler> wrestlerList;
     private static ArrayList<Integer> weightClasses;
     private static ArrayList<Bracket> bracketList;
     private static ArrayList<MatchRecord> matchBank;
@@ -105,7 +105,7 @@ public class Model {
     public static int generateTournament() {
     	
     	//Returns to caller if no Wrestlers exist, or there exists only 1 team (not enough for a tournament)
-        if (wrestlerList.size() == 0 || teamList.size() == 1) {
+       /* if (wrestlerList.size() == 0 || teamList.size() == 1) {
             System.out.println("Error: No Wrestlers or Teams Found");
             System.out.println("Please add wrestlers/teams before generating a tournament.");
             return 0;  
@@ -128,7 +128,7 @@ public class Model {
             }
                
             bracketList.clear();
-        }
+        }*/
         
         //Creates a Bracket based off of each wrestlers weightclass
         Collections.sort(wrestlerList);
@@ -805,8 +805,10 @@ public class Model {
     	
     }
     
-    public static ArrayList<Bracket> getBracket() {
-		return bracketList;
+    
+    
+    public static ArrayList<Team> getTeamList() {
+		return teamList;
     	
     }
 }
