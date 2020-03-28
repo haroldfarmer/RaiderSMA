@@ -180,12 +180,19 @@ public class Main extends Application{
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
+		Button compareWrestlers = new Button();
+        TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
-		
+		compareWrestlers.setMinWidth(110);
+        compareWrestlersTxt.setMinWidth(110);
+        compareWrestlers.setText("Compare Wrestlers");
+        compareWrestlersTxt.setText("Name,Name");
+
+		ListView<String> compareWrestlerView = new ListView<String>();
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
 		ListView<String> startView = new ListView<String>();
-		TextField importWrestlerField = new TextField ();
+		TextField importWrestlerField = new TextField();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
@@ -221,6 +228,8 @@ public class Main extends Application{
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
+		layout.add(compareWrestlers, 0, 7);
+		layout.add( compareWrestlersTxt, 1, 7);
 		viewTeams.setOnAction(e -> {
 			
 			ArrayList<Team> show = Model.printTeams();
@@ -357,7 +366,7 @@ public class Main extends Application{
 			
 			if(Model.getWrestlerList().size() == 0 || Model.getTeamList().size() == 0) {//checks to see if there are teams and wrestlers
 				Alert genTourn0 = new Alert(AlertType.ERROR);
-				genTourn0.setTitle("Generate Tournament ALert");
+				genTourn0.setTitle("Generate Tournament Alert");
 				String genTourn0Info = "Error: No Wrestlers or Teams Found \n"
 						+ "Please add wrestlers/teams before generating a tournament.";
 				genTourn0.setContentText(genTourn0Info);
@@ -406,9 +415,35 @@ public class Main extends Application{
 			
 		});
 		
+		compareWrestlers.setOnAction(e -> {
+            String textbox = compareWrestlersTxt.getText();
+            ArrayList<Wrestler> compareWrestlerPrint = Model.compareWrestlersInformation(textbox);
+            
+            if(compareWrestlerPrint.size() == 0) {
+                Alert comWresPrintError = new Alert(AlertType.ERROR);
+                comWresPrintError.setTitle("Error Name Not Found");
+                String comWresPrintErrorInfo = "One of the names entered does not exist.";
+                comWresPrintError.setTitle(comWresPrintErrorInfo);
+                comWresPrintError.show();
+            } else {
+            Wrestler w1 = compareWrestlerPrint.get(0);
+            Wrestler w2 = compareWrestlerPrint.get(1);
+            compareWrestlerView.getItems().add("\n\t" + "Guide: " + w1.getFirstName() + "  " + w2.getFirstName() +
+            "\nName: " + w1.getLastName() + ", " + w1.getFirstName() + "  " +  w2.getLastName() + ", " + w2.getFirstName() +
+            "\nUsername: " + w1.getUserName() + "  " +  w2.getUserName() +
+            "\nWeight Class: " + Integer.toString(w1.getWeightClass()) + "  " +  Integer.toString(w2.getWeightClass()) +
+            "\nTeam Name: " + w1.getTeamID() + "  " +  w2.getTeamID() +
+            "\nSeed: " + Integer.toString(w1.getSeed()) + "  " +  Integer.toString(w2.getSeed()) +
+            "\nRating: " + Double.toString(w1.getRating()) + "  " +  Double.toString(w2.getRating()) + "\n");
+            }
+            return;
+
+        });
+		
+		
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView,wrestlerView,startView);
+		viewList.getChildren().addAll(listView,wrestlerView,startView,compareWrestlerView);//adds different list view to the gui
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
